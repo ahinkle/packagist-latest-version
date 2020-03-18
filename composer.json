@@ -1,0 +1,46 @@
+{
+    "name": "ahinkle/packagist-latest-version",
+    "description": "Obtains the latest version release of Composer Packages from the Packagist API",
+    "keywords": [
+        "ahinkle",
+        "packagist-latest-version",
+        "packagist",
+        "latest",
+        "compsoser",
+        "version"
+    ],
+    "homepage": "https://github.com/ahinkle/packagist-latest-version",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Andy Hinkle",
+            "email": "ahinkle10@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ahinkle\\PackagistLatestVersion\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ahinkle\\PackagistLatestVersion\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
