@@ -48,8 +48,8 @@ class PackagistLatestVersionTest extends TestCase
         $resolve = $this->packagist->resolveLatestRelease([
             [
                 'version_normalized' => '1.0.0.0',
-                'version' => 'v1.0'
-            ]
+                'version' => 'v1.0',
+            ],
         ]);
 
         $this->assertEquals('1.0.0.0', $resolve['version_normalized']);
@@ -60,16 +60,16 @@ class PackagistLatestVersionTest extends TestCase
         $resolve = $this->packagist->resolveLatestRelease([
             [
                 'version_normalized' => '1.2.0.0',
-                'version' => 'v1.2'
+                'version' => 'v1.2',
             ],
             [
                 'version_normalized' => '2.0.0.0',
-                'version' => 'v2.0'
+                'version' => 'v2.0',
             ],
             [
                 'version_normalized' => '1.0.0.0',
                 'version' => 'v1.0',
-            ]
+            ],
         ]);
 
         $this->assertEquals('v2.0', $resolve['version']);
@@ -81,7 +81,7 @@ class PackagistLatestVersionTest extends TestCase
         $this->assertTrue($this->packagist->isDevelopmentalRelease('v0.01-dev'));
         $this->assertTrue($this->packagist->isDevelopmentalRelease('dev-0.01'));
         $this->assertTrue($this->packagist->isDevelopmentalRelease('dev-master'));
-        
+
         $this->assertFalse($this->packagist->isDevelopmentalRelease('1.0.0.0'));
         $this->assertFalse($this->packagist->isDevelopmentalRelease('1.2.3.4'));
         $this->assertFalse($this->packagist->isDevelopmentalRelease('1.2.3.4-foo'));
