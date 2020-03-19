@@ -81,6 +81,7 @@ class PackagistLatestVersionTest extends TestCase
         $this->assertTrue($this->packagist->isDevelopmentalRelease('v0.01-dev'));
         $this->assertTrue($this->packagist->isDevelopmentalRelease('dev-0.01'));
         $this->assertTrue($this->packagist->isDevelopmentalRelease('dev-master'));
+        $this->assertTrue($this->packagist->isDevelopmentalRelease('2.3.4.0-RC1'));
 
         $this->assertFalse($this->packagist->isDevelopmentalRelease('1.0.0.0'));
         $this->assertFalse($this->packagist->isDevelopmentalRelease('1.2.3.4'));

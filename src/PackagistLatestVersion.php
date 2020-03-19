@@ -116,7 +116,7 @@ class PackagistLatestVersion
     public function isDevelopmentalRelease($release)
     {
         foreach ($this->developmentalTags as $developmentalTag) {
-            if (strpos($release, $developmentalTag) !== false) {
+            if (stripos($release, $developmentalTag) !== false) {
                 return true;
             }
         }
