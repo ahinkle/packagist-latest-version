@@ -5,8 +5,9 @@
         "ahinkle",
         "packagist-latest-version",
         "packagist",
+        "packagist-api",
         "latest",
-        "compsoser",
+        "composer",
         "version"
     ],
     "homepage": "https://github.com/ahinkle/packagist-latest-version",
