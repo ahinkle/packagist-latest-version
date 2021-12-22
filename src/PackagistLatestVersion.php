@@ -3,37 +3,30 @@
 namespace ahinkle\PackagistLatestVersion;
 
 use Exception;
-use GuzzleHttp\Client;
+use Spatie\Packagist\PackagistClient;
 
 class PackagistLatestVersion
 {
     /**
-     * The Guzzle Client.
-     *
-     * @var \GuzzleHttp\Client
-     */
-    protected $client;
-
-    /**
      * The Packagist API.
      *
-     * @var \Spatie\Packagist\Packagist
+     * @var PackagistClient
      */
-    protected $packagist;
+    protected PackagistClient $packagist;
 
     /**
      * The latest version of the package.
      *
-     * @var string|null
+     * @var array|null
      */
-    protected $latestVersion = null;
+    protected ?array $latestVersion = null;
 
     /**
      * Release tags that are considered `developmental` releases.
      *
      * @var array
      */
-    protected $developmentalTags = [
+    protected array $developmentalTags = [
         'alpha',
         'beta',
         'dev',
@@ -45,37 +38,32 @@ class PackagistLatestVersion
         'wip',
     ];
 
-    /**
-     * @param \GuzzleHttp\Client $client
-     * @param string             $baseUrl
-     */
-    public function __construct(Client $client, $baseUrl = 'https://packagist.org')
+    public function __construct()
     {
-        $this->client = $client;
-
-        $this->packagist = new \Spatie\Packagist\Packagist($client, $baseUrl);
+        $this->packagist = new PackagistClient(new \GuzzleHttp\Client(), new \Spatie\Packagist\PackagistUrlGenerator());
     }
 
     /**
      * The latest release of the specified package.
      *
-     * @param string $vendor
+     * @param  string  $package
+     * @return array|null
      *
-     * @return string|null
+     * @throws Exception
      */
-    public function getLatestRelease($package)
+    public function getLatestRelease(string $package): ?array
     {
         if ($package === '') {
             throw new Exception('You must pass a package value');
         }
 
-        $package = $this->packagist->getPackageMetaData($package);
+        $metadata = $this->packagist->getPackageMetaData($package);
 
-        if (! isset($package['package']['versions'])) {
-            return;
+        if (! isset($metadata['packages'][$package])) {
+            return null;
         }
 
-        return $this->resolveLatestRelease($package['package']['versions']);
+        return $this->resolveLatestRelease($metadata['packages'][$package]);
     }
 
     /**
@@ -84,10 +72,10 @@ class PackagistLatestVersion
      * @param  array  $releases
      * @return array|null
      */
-    public function resolveLatestRelease($releases)
+    public function resolveLatestRelease(array $releases): ?array
     {
         if (empty($releases)) {
-            return;
+            return null;
         }
 
         foreach ($releases as $release) {
@@ -108,12 +96,12 @@ class PackagistLatestVersion
     }
 
     /**
-     * If the the release tag is a developmental release.
+     * If the release tag is a developmental release.
      *
      * @param  string  $release
      * @return bool
      */
-    public function isDevelopmentalRelease($release)
+    public function isDevelopmentalRelease(string $release): bool
     {
         foreach ($this->developmentalTags as $developmentalTag) {
             if (stripos($release, $developmentalTag) !== false) {
