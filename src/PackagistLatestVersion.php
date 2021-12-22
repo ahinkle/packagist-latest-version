@@ -3,7 +3,7 @@
 namespace ahinkle\PackagistLatestVersion;
 
 use Exception;
-use \GuzzleHttp\Client;
+use GuzzleHttp\Client;
 use Spatie\Packagist\PackagistClient;
 
 class PackagistLatestVersion
@@ -47,7 +47,7 @@ class PackagistLatestVersion
     ];
 
     /**
-     * @param Client $client
+     * @param  Client  $client
      */
     public function __construct(Client $client)
     {
@@ -59,8 +59,9 @@ class PackagistLatestVersion
     /**
      * The latest release of the specified package.
      *
-     * @param string $package
+     * @param  string  $package
      * @return array|null
+     *
      * @throws Exception
      */
     public function getLatestRelease(string $package): ?array
