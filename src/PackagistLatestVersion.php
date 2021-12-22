@@ -9,13 +9,6 @@ use Spatie\Packagist\PackagistClient;
 class PackagistLatestVersion
 {
     /**
-     * The Guzzle Client.
-     *
-     * @var Client
-     */
-    protected Client $client;
-
-    /**
      * The Packagist API.
      *
      * @var PackagistClient
@@ -46,14 +39,9 @@ class PackagistLatestVersion
         'wip',
     ];
 
-    /**
-     * @param  Client  $client
-     */
-    public function __construct(Client $client)
+    public function __construct()
     {
-        $this->client = $client;
-
-        $this->packagist = new PackagistClient($client, new \Spatie\Packagist\PackagistUrlGenerator());
+        $this->packagist = new PackagistClient(new Client(), new \Spatie\Packagist\PackagistUrlGenerator());
     }
 
     /**

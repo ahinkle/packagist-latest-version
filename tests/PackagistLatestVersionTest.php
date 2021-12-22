@@ -17,9 +17,7 @@ class PackagistLatestVersionTest extends TestCase
     {
         parent::setUp();
 
-        $client = new Client();
-
-        $this->packagist = new PackagistLatestVersion($client);
+        $this->packagist = new PackagistLatestVersion();
     }
 
     public function test_it_can_instantiate_package_latest_version()
