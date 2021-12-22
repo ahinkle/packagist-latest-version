@@ -8,16 +8,18 @@ use PHPUnit\Framework\TestCase;
 
 class PackagistLatestVersionTest extends TestCase
 {
-    /** @var ahinkle\PackagistLatestVersion\PackagistLatestVersion */
-    protected $packagist;
+    /**
+     * @var PackagistLatestVersion
+     */
+    protected PackagistLatestVersion $packagist;
 
-    public function setUp()
+    public function setUp(): void
     {
+        parent::setUp();
+
         $client = new Client();
 
         $this->packagist = new PackagistLatestVersion($client);
-
-        parent::setUp();
     }
 
     public function test_it_can_instantiate_package_latest_version()
