@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 jobs:
     test:
-
         runs-on: ${{ matrix.os }}
         strategy:
             fail-fast: true
@@ -17,7 +16,10 @@ jobs:
 
         steps:
             -   name: Checkout code
-                uses: actions/checkout@v1
+                uses: actions/checkout@v2
+                with:
+                    fetch-depth: 1
+                    ref: ${{ github.ref }}
 
             -   name: Cache dependencies
                 uses: actions/cache@v1
@@ -26,7 +28,7 @@ jobs:
                     key: dependencies-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
 
             -   name: Setup PHP
-                uses: shivammathur/setup-php@v1
+                uses: shivammathur/setup-php@v2
                 with:
                     php-version: ${{ matrix.php }}
                     extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
