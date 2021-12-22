@@ -3,7 +3,6 @@
 namespace ahinkle\PackagistLatestVersion\Tests;
 
 use ahinkle\PackagistLatestVersion\PackagistLatestVersion;
-use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 
 class PackagistLatestVersionTest extends TestCase
