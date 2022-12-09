@@ -3,7 +3,9 @@
 namespace ahinkle\PackagistLatestVersion;
 
 use Exception;
+use GuzzleHttp\Client;
 use Spatie\Packagist\PackagistClient;
+use Spatie\Packagist\PackagistUrlGenerator;
 
 class PackagistLatestVersion
 {
@@ -38,9 +40,9 @@ class PackagistLatestVersion
         'wip',
     ];
 
-    public function __construct()
+    public function __construct(Client $client = null)
     {
-        $this->packagist = new PackagistClient(new \GuzzleHttp\Client(), new \Spatie\Packagist\PackagistUrlGenerator());
+        $this->packagist = new PackagistClient($client ?? new Client(), new PackagistUrlGenerator());
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace ahinkle\PackagistLatestVersion\Tests;
 
 use ahinkle\PackagistLatestVersion\PackagistLatestVersion;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 
 class PackagistLatestVersionTest extends TestCase
@@ -85,5 +87,29 @@ class PackagistLatestVersionTest extends TestCase
         $this->assertFalse($this->packagist->isDevelopmentalRelease('1.0.0.0'));
         $this->assertFalse($this->packagist->isDevelopmentalRelease('1.2.3.4'));
         $this->assertFalse($this->packagist->isDevelopmentalRelease('1.2.3.4-foo'));
+    }
+
+    public function test_it_can_use_custom_guzzle_client()
+    {
+        $response = new Response(
+            200,
+            [],
+            json_encode(['packages' => ['my/package' => [
+                ['version_normalized' => '1.0.0'],
+                ['version_normalized' => '1.2.0'],
+                ['version_normalized' => '1.2.3'],
+            ]]])
+        );
+
+        $client = $this->createMock(Client::class);
+        $client->expects($this->once())
+            ->method('get')
+            ->with('https://repo.packagist.org/p/my/package.json', ['query' => []])
+            ->willReturn($response);
+
+        $packagist = new PackagistLatestVersion($client);
+        $result = $packagist->getLatestRelease('my/package');
+
+        $this->assertEquals(['version_normalized' => '1.2.3'], $result);
     }
 }
